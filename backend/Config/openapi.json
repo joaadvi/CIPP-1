@@ -15109,12 +15109,12 @@
     },
     "/api/ExecBECEvidenceExport": {
       "post": {
-        "summary": "Builds the evidence package for a Business Email Compromise run.",
+        "summary": "Builds the evidence package for a Business Email Compromise run and returns it.",
         "operationId": "ExecBECEvidenceExport",
         "tags": [
           "Identity > Administration > Users"
         ],
-        "description": "Creates a ZIP for the run: results.json, one CSV per finding set, the containment history, every logbook entry stamped with the case id, the PDF report when pdfBase64 is supplied, and a manifest with the SHA-256 of every file. Stores it with the run (the run row records the package's SHA-256) and returns the manifest; download it with ListBECEvidence. Metadata only - nothing in the package is message content.",
+        "description": "Collates the run's stored results, one CSV per finding set, the containment history, every logbook entry stamped with the case id and the PDF report when pdfBase64 is supplied into a ZIP with a manifest listing the SHA-256 of every file. Nothing is stored: the ZIP is returned base64-encoded (ZipBase64) for the browser to save, and only the export record - hash, time, size - is kept on the run so a copy can be verified later. Metadata only - nothing in the package is message content.",
         "requestBody": {
           "required": true,
           "content": {
@@ -15159,6 +15159,9 @@
                       "x-cipp-field-source": "backend"
                     },
                     "Manifest": {
+                      "x-cipp-field-source": "backend"
+                    },
+                    "ZipBase64": {
                       "x-cipp-field-source": "backend"
                     },
                     "ZipSha256": {
@@ -39801,12 +39804,12 @@
     },
     "/api/ListBECEvidence": {
       "get": {
-        "summary": "Downloads the evidence package of a Business Email Compromise run.",
+        "summary": "Builds and downloads the evidence package of a Business Email Compromise run.",
         "operationId": "ListBECEvidence",
         "tags": [
           "Identity > Administration > Users"
         ],
-        "description": "Streams the evidence ZIP that ExecBECEvidenceExport stored for the run as application/zip. Verify the download against the SHA-256 recorded on the run (EvidenceSha256 in ListBECReports). Without download=true the package's metadata is returned instead.",
+        "description": "With download=true, collates the run's stored results, containment history and case logbook into a fresh ZIP with a SHA-256 manifest and streams it as application/zip; nothing is stored - the export is recorded on the run (hash, time, size) so the download can be verified later. This path cannot include the PDF report, which only the browser can render; ExecBECEvidenceExport accepts one. Without download=true the run's recorded exports are returned instead.",
         "parameters": [
           {
             "name": "caseId",
@@ -39819,7 +39822,7 @@
           {
             "name": "download",
             "in": "query",
-            "description": "true streams the ZIP; otherwise the package metadata is returned",
+            "description": "true builds and streams the ZIP; otherwise the run's recorded exports are returned",
             "required": false,
             "schema": {
               "type": "string"

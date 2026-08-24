@@ -151,7 +151,7 @@ const JobStepIcon = ({ status }) => {
 
 // Live job progress rows (GDAP-onboarding style): one block per row (usually a tenant) with
 // its steps, driven by the jobProgress polling in CippApiResults.
-const CippJobProgress = ({ rows }) => (
+export const CippJobProgress = ({ rows }) => (
   <Stack spacing={2}>
     {rows.map((row, rowIndex) => (
       <Box key={row.Tenant ?? row.Name ?? rowIndex}>

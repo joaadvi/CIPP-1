@@ -139,6 +139,7 @@
     * [Sign-in Report](user-documentation/identity/reports/signin-report.md)
     * [Microsoft Entra Connect Report](user-documentation/identity/reports/azure-ad-connect-report.md)
     * [Risk Detections](user-documentation/identity/reports/risk-detections.md)
+    * [BEC Reports](user-documentation/identity/reports/bec-reports.md)
 * [Tenant Administration](user-documentation/tenant/README.md)
   * [Administration](user-documentation/tenant/administration/README.md)
     * [Tenants](user-documentation/tenant/administration/tenants/README.md)

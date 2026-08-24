@@ -138,6 +138,11 @@ export const nativeMenuItems = [
             path: '/identity/reports/risk-detections',
             permissions: ['Identity.User.*'],
           },
+          {
+            title: 'BEC Reports',
+            path: '/identity/reports/bec-reports',
+            permissions: ['Identity.User.*'],
+          },
         ],
       },
     ],

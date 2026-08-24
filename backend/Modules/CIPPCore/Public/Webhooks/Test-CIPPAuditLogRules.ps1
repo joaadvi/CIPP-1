@@ -176,6 +176,7 @@ function Test-CIPPAuditLogRules {
         # second Select-Object projection over the whole property bag.
         $RecordPlaceholders = @{
             CIPPAction             = $null
+            CIPPBecActions         = $null
             CIPPClause             = $null
             CIPPGeoLocation        = $null
             CIPPBadRepIP           = $null
@@ -248,6 +249,7 @@ function Test-CIPPAuditLogRules {
                             Excluded      = $ExcludedTenants
                             Conditions    = $ConfigEntry.Conditions
                             Actions       = $ConfigEntry.Actions
+                            BecActions    = $ConfigEntry.BecActions
                             LogType       = $ConfigEntry.Type
                             AlertComment  = $ConfigEntry.AlertComment
                             CustomSubject = $ConfigEntry.CustomSubject
@@ -841,6 +843,7 @@ function Test-CIPPAuditLogRules {
                     [PSCustomObject]@{
                         conditions       = $conditions
                         expectedAction   = $actions
+                        expectedBecActions = $Config.BecActions
                         CIPPClause       = $CIPPClause
                         AlertComment     = $Config.AlertComment
                         CustomSubject    = $Config.CustomSubject
@@ -903,6 +906,7 @@ function Test-CIPPAuditLogRules {
                         Write-Warning "Webhook: There is matching data: $(($ReturnedData.operation | Select-Object -Unique) -join ', ')"
                         $ReturnedData = foreach ($item in $ReturnedData) {
                             $item.CIPPAction = $clause.expectedAction
+                            $item.CIPPBecActions = $clause.expectedBecActions
                             $item.CIPPClause = $clause.CIPPClause -join ' and '
                             $item | Add-Member -NotePropertyName 'CIPPAlertComment' -NotePropertyValue $clause.AlertComment -Force -ErrorAction SilentlyContinue
                             $item | Add-Member -NotePropertyName 'CIPPCustomSubject' -NotePropertyValue $clause.CustomSubject -Force -ErrorAction SilentlyContinue
